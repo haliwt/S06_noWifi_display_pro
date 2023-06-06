@@ -140,11 +140,9 @@ void RunPocess_Command_Handler(void)
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:
-          do{
               power_on_first=0;
 		 	  SendData_PowerOff(1);
               HAL_Delay(10);
-            }while(power_on_first !=0);
 		    Power_On_Fun();
 			run_t.gRunCommand_label= UPDATE_DATA;
 	  break;
@@ -175,21 +173,12 @@ void RunPocess_Command_Handler(void)
 
 	  case POWER_OFF_PROCESS:
 
-	   if(run_t.gPower_On ==POWER_OFF || run_t.gPower_On == 0xff){
+	   if(run_t.gPower_On ==POWER_OFF ){
 
-	      if(power_off_flag !=run_t.power_on_recoder_times){
-		  	  power_off_flag = run_t.power_on_recoder_times;
-	 	  	run_t.gPower_On =0xff;
-		    Breath_Led();
-          
-	      }
-		  else if(run_t.gPower_On ==0xff){
+	  
 				Breath_Led();
-		  }
-		  else{
-            run_t.gPower_On = POWER_ON;
-			run_t.gRunCommand_label= UPDATE_DATA;
-		  }
+		 
+		
        }
 
 	  break;

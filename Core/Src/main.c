@@ -207,11 +207,15 @@ void SystemClock_Config(void)
   */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
+  uint32_t temp;
+    /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
   while (1)
   {
+        __HAL_UART_CLEAR_OREFLAG(&huart1);
+         temp = USART1->RDR;
+		  UART_Start_Receive_IT(&huart1,inputBuf,1);
   }
   /* USER CODE END Error_Handler_Debug */
 }

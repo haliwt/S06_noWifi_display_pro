@@ -71,29 +71,31 @@ void Error_Handler(void);
 #define TM1639_SCLK_GPIO_Port GPIOA
 
 //key input GPIO
-#define FAN_KEY_Pin 					GPIO_PIN_0
-#define FAN_KEY_GPIO_Port 				GPIOB
+#define POWER_KEY_Pin 					        GPIO_PIN_7
+#define POWER_KEY_GPIO_Port 			      GPIOC
 
-#define PLASMA_KEY_Pin 					GPIO_PIN_1
-#define PLASMA_KEY_GPIO_Port 			GPIOB
+#define FAN_KEY_Pin 					          GPIO_PIN_0
+#define FAN_KEY_GPIO_Port 				      GPIOB
 
-#define DRY_KEY_Pin 					GPIO_PIN_2
-#define DRY_KEY_GPIO_Port 				GPIOB
+#define PLASMA_KEY_Pin 					        GPIO_PIN_1
+#define PLASMA_KEY_GPIO_Port 			      GPIOB
 
-#define WIFI_KEY_Pin 					GPIO_PIN_10
-#define WIFI_KEY_GPIO_Port 				GPIOB
+#define DRY_KEY_Pin 					          GPIO_PIN_2
+#define DRY_KEY_GPIO_Port 				      GPIOB
 
-#define POWER_KEY_Pin 					GPIO_PIN_7
-#define POWER_KEY_GPIO_Port 			GPIOC
+#define WIFI_KEY_Pin 					          GPIO_PIN_10
+#define WIFI_KEY_GPIO_Port 				      GPIOB
 
-#define MODEL_KEY_Pin 					GPIO_PIN_10
-#define MODEL_KEY_GPIO_Port 				GPIOA
 
-#define DEC_KEY_Pin 					GPIO_PIN_11
-#define DEC_KEY_GPIO_Port 				GPIOA
 
-#define ADD_KEY_Pin 					GPIO_PIN_12
-#define ADD_KEY_GPIO_Port 				GPIOA
+#define MODEL_KEY_Pin 					        GPIO_PIN_10
+#define MODEL_KEY_GPIO_Port 				    GPIOA
+
+#define DEC_KEY_Pin 					          GPIO_PIN_11
+#define DEC_KEY_GPIO_Port 				      GPIOA
+
+#define ADD_KEY_Pin 					          GPIO_PIN_12
+#define ADD_KEY_GPIO_Port 				      GPIOA
 
 
 

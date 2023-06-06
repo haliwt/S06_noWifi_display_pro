@@ -81,28 +81,7 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 	
     switch(cmd){
 
-
-	 case WIFI_CMD:
-	 	 
-	    Receive_Wifi_Cmd(run_t.wifiCmd[0]);
-	 
-	 break;
-
-	 case WIFI_TEMP: //set temperature value
-	       if(run_t.gPower_On ==1){
-		   	   run_t.set_temperature_flag=1;
-			  
-			   
-           	run_t.gTimer_key_temp_timing=0;
-        	 m= run_t.wifi_set_temperature /10 ;
-			 n= run_t.wifi_set_temperature %10;
-		   
-	        TM1639_Write_2bit_SetUp_TempData(m,n,0);
-			}
-    
-	 break;
-
-	 case PANEL_DATA://0X02
+      case PANEL_DATA://0X02
 	   
         if(run_t.gPower_On ==1){
         hum1 =  run_t.gReal_humtemp[0]/10 %10;  //Humidity 
@@ -120,49 +99,9 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
       break;
 
-       case WIFI_BEIJING_TIME: 
-         if(run_t.wifi_link_cloud_flag ==1 && run_t.gPower_On==1){
-          
-               
-			 m=(run_t.dispTime_hours ) /10;
-	        n = (run_t.dispTime_hours ) %10;;
-			
-            p= (run_t.dispTime_minutes )/10;
-            q = (run_t.dispTime_minutes )%10;
-			run_t.hours_two_bit = n;
-            run_t.minutes_one_bit = p;
-	       TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ; // timer   mode  "H0: xx"
-			
-		 }
-         
-		    
-       
- 
-      break;
+      
 
-      case WIFI_SET_TIMING:
-        
-       
-            run_t.dispTime_minutes = 0;
-             
-            run_t.temp_set_timer_timing_flag= 1;
-	   
-			run_t.gTimer_key_timing=0;
-		    
-            
-             m=(run_t.dispTime_hours ) /10;
-	       
-
-			 n= (run_t.dispTime_hours ) %10;;
-			
-	         run_t.hours_two_bit = n;
-			 run_t.minutes_one_bit = 0;
-			 
-             TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,0,0) ; // timer   mode  "H0: xx"
-            
-	   
-
-      break;
+     
 
 	}
 
@@ -281,61 +220,19 @@ void Power_On_Fun(void)
                 
    static uint8_t hour_decade,hour_unit,minutes_one,minutes_two;
 
-   if(run_t.wifi_power_on_flag !=RUN_POWER_ON){
+  
 	
 		run_t.gPlasma=1;
 		run_t.gDry =1;
 		run_t.gBug =1;
 	   	run_t.gUltrasonic =1;
-    }
-    run_t.gPower_On=1;
+  
+    run_t.gPower_On=POWER_ON;
 
     run_t.time_led_flag=1;
-	
-   
-	run_t.wifi_send_buzzer_sound=0xff;
+	Power_ON_Led();
 
 	
-     Power_ON_Led();
-
-	 if(run_t.timer_counter_to_zero ==1){
-
-	       run_t.timer_counter_to_zero++;
-		   run_t.dispTime_hours=0;
-		   run_t.dispTime_minutes =0;
-		   run_t.send_app_timer_total_minutes_data=0;
-		   run_t.timer_timing_define_flag=timing_donot;
-		   run_t.dispTime_hours = 0;
-		   run_t.dispTime_minutes = 0;
-		   run_t.send_app_wokes_total_minutes_data =0;
-		   run_t.send_app_wokes_minutes_one=0;
-		   run_t.send_app_wokes_minutes_two=0;
-		   run_t.works_dispTime_hours=0;
-		   run_t.works_dispTime_minutes=0;
-		   SendData_Time_Data(0); 
-
-		}
-	    else if(run_t.timer_timing_define_flag==timing_success || run_t.temp_set_timer_timing_flag== 1){ //power on remeber last powr off of reference
-
-	     run_t.dispTime_hours = run_t.define_initialization_timer_time_hours ;
-         run_t.send_app_timer_total_minutes_data = run_t.define_initialization_timer_time_hours * 60;
-		 run_t.gTimer_minute_Counter =0;
-		 run_t.dispTime_minutes =0;
-		 run_t.send_app_timer_minutes_one = run_t.send_app_timer_total_minutes_data >> 8;
-		 run_t.send_app_timer_minutes_two = run_t.send_app_timer_total_minutes_data & 0x00ff;
-		 SendData_Remaining_Time(run_t.send_app_timer_minutes_one, run_t.send_app_timer_minutes_two);
-       }
-       else{
-	         run_t.dispTime_hours = 0;
-			 run_t.dispTime_minutes = 0;
-		     run_t.send_app_wokes_total_minutes_data =0;
-			 run_t.send_app_wokes_minutes_one=0;
-			 run_t.send_app_wokes_minutes_two=0;
-			 run_t.works_dispTime_hours=0;
-			 run_t.works_dispTime_minutes=0;
-			 SendData_Works_Time(run_t.send_app_wokes_minutes_one, run_t.send_app_wokes_minutes_two);
-			 HAL_Delay(200);
-		}
          
         
 
@@ -346,14 +243,9 @@ void Power_On_Fun(void)
       minutes_two = run_t.dispTime_minutes %10;
 	  
 	   SMG_POWER_ON(); //WT.EDIT 2023.03.02
-       HAL_Delay(50);  
+      
 
-//      if(run_t.first_power_on_times == 1){
-//          run_t.first_power_on_times++;
-//          run_t.gReal_humtemp[0]=0;
-//           run_t.gReal_humtemp[1]=0;
-//              Display_DHT11_Value();
-//      }
+
 	  run_t.hours_two_bit = hour_unit;
 	  run_t.minutes_one_bit =  minutes_one;
       
