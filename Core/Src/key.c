@@ -171,7 +171,7 @@ void Process_Key_Handler(uint8_t keylabel)
            power_on_off_flag = power_on_off_flag ^ 0x01;
 	       if(power_on_off_flag ==1){
  			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value
- 			run_t.wifi_power_on_flag = RUN_NULL ; //divisive app power on and key power on
+ 		
             run_t.gRunCommand_label =RUN_POWER_ON;
               
 		 }
@@ -195,7 +195,7 @@ void Process_Key_Handler(uint8_t keylabel)
 		  	run_t.gWifi =1;
 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
          
-			run_t.wifi_led_fast_blink_flag=1;
+		
 			run_t.wifi_link_cloud_flag =0;
 			run_t.gTimer_wifi_connect_counter=0;
 	       
@@ -416,7 +416,7 @@ void SetTimer_Temperature_Number_Blink(void)
 
 			run_t.temp_set_timer_timing_flag=0;
 
-			run_t.timer_timing_define_flag =timing_donot;
+		
 			run_t.send_app_timer_minutes_one = 0;
 		    run_t.send_app_timer_minutes_two = 0;
 			
@@ -475,7 +475,7 @@ void SetTimer_Temperature_Number_Blink(void)
 		   	run_t.set_timer_special_value=0 ;
 			run_t.dispTime_minutes=0;
 			run_t.temp_set_timer_timing_flag=0;
-			run_t.timer_timing_define_flag = timing_success;
+		
 			
 			run_t.define_initialization_timer_time_hours = run_t.dispTime_hours ;//* 60 
 			run_t.send_app_timer_total_minutes_data = run_t.define_initialization_timer_time_hours*60;

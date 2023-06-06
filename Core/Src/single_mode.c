@@ -136,19 +136,45 @@ static void DisplayPanel_DHT11_Value(void)
 ******************************************************************************/
 void RunPocess_Command_Handler(void)
 {
-   static uint8_t power_off_flag=0xff,power_on_first;
+
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:
-              power_on_first=0;
-		 	  SendData_PowerOff(1);
-              HAL_Delay(10);
-		    Power_On_Fun();
+
+            switch(run_t.step_run_power_on_tag){
+
+			case 0:
+           
+		 	SendData_PowerOff(1);
+            HAL_Delay(20);
+		    
+
+			if(run_t.power_on_send_to_mb_flag< 45){
+
+			  run_t.power_on_send_to_mb_flag++;
+
+			  SendData_PowerOff(1);
+			  HAL_Delay(40);
+			 
+
+
+			}
+
+			break;
+
+			case 1:
+			Power_On_Fun();
 			run_t.gRunCommand_label= UPDATE_DATA;
+
+            break;
+
+            }
 	  break;
 
 	  case RUN_POWER_OFF:
-          
+	  	  run_t.power_on_send_to_mb_flag=0;
+          SendData_PowerOff(0);
+           HAL_Delay(5);
            Power_Off_Fun();
 	      
 		   run_t.gRunCommand_label =POWER_OFF_PROCESS;
@@ -171,7 +197,7 @@ void RunPocess_Command_Handler(void)
 
 	  break;
 
-	  case POWER_OFF_PROCESS:
+	  case POWER_OFF_PROCESS://4
 
 	   if(run_t.gPower_On ==POWER_OFF ){
 

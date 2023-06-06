@@ -29,7 +29,8 @@ void Decode_Handler(void)
    if(run_t.decodeFlag ==1){
    run_t.decodeFlag =0;
    run_t.process_run_guarantee_flag =1;
-   Receive_MainBoard_Data_Handler(run_t.wifi_orderByMainboard_label);
+   Receive_MainBoard_Data_Handler(run_t.rx_mb_data_tag);
+   run_t.step_run_power_on_tag=1;
 
    }
   
@@ -115,106 +116,6 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 *Return Ref: NO
 *
 **********************************************************************/
-static void Receive_Wifi_Cmd(uint8_t cmd)
-{
-	switch(cmd){
-
-
-
-          case WIFI_POWER_ON_NORMAL:
-
-                run_t.wifi_power_on_flag = RUN_WIFI_NORMAL_POWER_ON;
-				run_t.wifi_send_buzzer_sound = WIFI_POWER_ON_ITEM;
-		        run_t.gRunCommand_label = RUN_POWER_ON;
-				run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
-			break;
-
-		   case WIFI_POWER_ON: //turn on 
-		 	
-				
-				run_t.wifi_send_buzzer_sound = WIFI_POWER_ON_ITEM;
-                run_t.wifi_power_on_flag = RUN_POWER_ON;
-				run_t.gRunCommand_label = RUN_POWER_ON;
-				run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
-				
-
-	         break;
-
-			 
-			 
-
-			 case WIFI_POWER_OFF: //turn off 
-                
-			   run_t.wifi_send_buzzer_sound = WIFI_POWER_OFF_ITEM;
-			   run_t.gRunCommand_label = RUN_POWER_OFF;
-			   run_t.power_on_recoder_times++;
-			   run_t.wifi_link_cloud_flag =WIFI_CLOUD_SUCCESS;
-				
-            
-
-			 break;
-
-			 case WIFI_KILL_ON: //kill turn on plasma
-			  if(run_t.gPower_On==1){
-               	run_t.gPlasma = 1;
-			        
-             } 
-			 break;
-
-			 case WIFI_KILL_OFF: //kill turn off
-                if(run_t.gPower_On==1){
-			 	  run_t.gPlasma =0;
-				  
-		          
-                }
-			 break;
-
-			 case WIFI_PTC_ON://dry turn on
-                if(run_t.gPower_On==1){
-			        run_t.gDry =1;
-                    
-                 
-                }
-			 break;
-
-			 case WIFI_PTC_OFF: //dry turn off
-               
-			 	if(run_t.gPower_On==1){
-					run_t.gDry=0;
-                 
-		           
-			 	}
-
-			 break;
-
-			 case WIFI_SONIC_ON:  //drive bug
-		
-				 if(run_t.gPower_On==1){		   
-				  run_t.gUltrasonic =1; //turn on 
-			
-				 
-			    }
-
-			 break;
-
-			 case WIFI_SONIC_OFF: //drive bug turn off
-			 	if(run_t.gPower_On==1){
-				    run_t.gUltrasonic=0;
-					
-			   }
-			 break;
-
-
-
-	         default :
-                  cmd =0;
-			 break;
-
-			 
-        }
-   
-}
-
 void Power_On_Fun(void)
 {
                 
@@ -253,6 +154,7 @@ void Power_On_Fun(void)
       Display_DHT11_Value();
     
 }
+
 
 /************************************************************************
 	*

@@ -10,7 +10,7 @@ uint8_t outputBuf[8];
 static uint8_t transferSize;
 static uint8_t state;
 uint8_t inputBuf[MAX_BUFFER_SIZE];
-
+uint8_t parse_buf[MAX_BUFFER_SIZE];
 
 
 
@@ -204,62 +204,128 @@ void SendData_Remaining_Time(uint8_t tdata,uint8_t tdata_2)
 *******************************************************************************/
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-   
+     uint8_t total_value ;
 	if(huart==&huart1) // Motor Board receive data (filter)
 	{
 		switch(state)
 		{
 		case 0:  //#0
-			if(inputBuf[0]=='M')  //hex :4D - "M" -fixed mainboard
+			if(inputBuf[0]=='M' || inputBuf[0]==0x55)  {//hex :4D - "M" -fixed mainboard
+                if(inputBuf[0]==0x55){
+
+                    parse_buf[0] =inputBuf[0];
+					run_t.rx_mb_answer_tag =1;
+
+                }
+
 				state=1; //=1
+
+		    }
+			else{
+			state=0; //=1
+
+			run_t.rx_mb_answer_tag=0;
+
+			}
 			break;
 		case 1: //#1
-			if(inputBuf[0]=='A') //hex : 41 -'A'  -fixed master
+			if(inputBuf[0]=='A' ||inputBuf[0]==0 || inputBuf[0]==0x01) //hex : 41 -'A'  -fixed master
 			{
+				if(run_t.rx_mb_answer_tag ==1)parse_buf[1] =inputBuf[0];
+                
 				state=2; 
 			}
-			else
-				state=0; 
+			else{
+				
+				state=0;
+				run_t.rx_mb_answer_tag=0;
+
+
+				}
 			break;
 		case 2://#2
-			if(inputBuf[0]=='D' )
+			if(inputBuf[0]=='D' || inputBuf[0]==0x1 )
 			 {
 				
-				if(inputBuf[0]=='D') run_t.wifi_orderByMainboard_label=PANEL_DATA; //receive data is single data
-            
+				if(inputBuf[0]=='D')run_t.rx_mb_data_tag=PANEL_DATA; //receive data is single data
+                else if(run_t.rx_mb_answer_tag ==1)parse_buf[2] =inputBuf[0];
 			    state=3;
 			}
-			else
+			else{
 				state=0;
+				run_t.rx_mb_answer_tag=0;
+
+
+				}
 			break;
             
         case 3:
 
-            switch(run_t.wifi_orderByMainboard_label){
-             case PANEL_DATA: //3
+            if(run_t.rx_mb_data_tag==PANEL_DATA){
+            
                  run_t.gReal_humtemp[0]=inputBuf[0]; //Humidity value 
-                 state = 4;  
-            break;
-          
+                  state = 4; 
+                
+             }
+            else  if(run_t.rx_mb_answer_tag ==1){
+
+				parse_buf[3] =inputBuf[0];
+				 state = 4; 
+            }
+			else{
+				 state =0; 
+                 run_t.rx_mb_answer_tag=0;
+
+				}
 
          
-			 
+		    
 			 
 
-         	}
+         	
 
             
         break;
         
 		case 4: //
 
-		 if(run_t.wifi_orderByMainboard_label==PANEL_DATA){
+		 if(run_t.rx_mb_data_tag==PANEL_DATA){
               run_t.gReal_humtemp[1]=inputBuf[0]; //temperature value
 			
 		     state=0;
 		     run_t.decodeFlag=1;
+			 run_t.rx_mb_answer_tag=0;
           }
+         else if(run_t.rx_mb_answer_tag ==1){
+
+			parse_buf[4] =inputBuf[0];
+			state =5;
+
+         }
+		 else{
+		 	state =0;
+           run_t.rx_mb_answer_tag=0;
+		 	}
 		 
+		 break;
+
+
+		 case 5:
+		  parse_buf[5] =inputBuf[0];
+          total_value = parse_buf[0]+parse_buf[1]+parse_buf[2]+parse_buf[3] +parse_buf[4];
+		  if(total_value == parse_buf[5]){
+
+		      state=0;
+			   run_t.decodeFlag=1;
+
+
+		  }
+		  else{
+		      state =0;
+			  run_t.rx_mb_answer_tag=0;
+
+		  }
+
 		 break;
            
        
@@ -276,11 +342,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 void USART1_Cmd_Error_Handler(void)
 {
    uint32_t temp;
-   
-
-	
-
-	 if(run_t.gTimer_usart_error >9){
+   if(run_t.gTimer_usart_error >9){
 	  	run_t.gTimer_usart_error=0;
 	    
       

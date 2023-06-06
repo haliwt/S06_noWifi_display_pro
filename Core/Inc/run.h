@@ -91,6 +91,8 @@ typedef struct __RUN{
    uint8_t  gWifi;
 
    uint8_t  gUltrasonic;
+   uint8_t  power_on_send_to_mb_flag;
+   uint8_t step_run_power_on_tag;
   
   
    
@@ -120,20 +122,16 @@ typedef struct __RUN{
   
 	
    uint8_t gReal_humtemp[2];
-   uint8_t gInputCmd[2];
-   uint8_t wifisetTime[1];
-   uint8_t wifiCmd[2];
- 
-   //WIFI 
-   uint8_t wifi_send_buzzer_sound;
-   uint8_t gTimer_minute_Counter;
+   uint8_t rx_mb_data_tag;
+   uint8_t rx_mb_answer_tag ;
+
+   //wifi icon
    uint8_t wifi_led_fast_blink_flag;
    uint8_t timer_timing_define_flag;
-   uint8_t wifi_power_on_flag;
-   uint8_t wifi_orderByMainboard_label;
-   uint8_t wifi_normal_power_on_flag;
-   uint8_t first_hour_to_zero_flag;
-   uint8_t timer_counter_to_zero ;
+
+ 
+
+ 
    //usart ref
     uint8_t process_run_guarantee_flag;
     uint8_t iwdg_feed_success_flag ;
