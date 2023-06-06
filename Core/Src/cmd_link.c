@@ -316,7 +316,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		  if(total_value == parse_buf[5]){
 
 		      state=0;
-			   run_t.decodeFlag=1;
+			  run_t.decodeFlag=1;
+		      run_t.rx_mb_data_tag=0;
+			   run_t.rx_mb_data_tag=ANSWER_DATA;
 
 
 		  }

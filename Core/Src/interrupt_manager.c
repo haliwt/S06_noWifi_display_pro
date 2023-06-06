@@ -2,6 +2,7 @@
 #include "run.h"
 #include "usart.h"
 #include "cmd_link.h"
+#include "single_mode.h"
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
@@ -66,7 +67,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	   run_t.gTimer_iwdg++;
 	   run_t.gTimer_usart_error++;
 
-		if(run_t.gPower_On==1){
+		if(run_t.gPower_On==RUN_POWER_ON){
 		    run_t.gTimer_Counter ++;
 		    run_t.gTimes_time_seconds ++;
 

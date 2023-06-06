@@ -118,8 +118,10 @@ int main(void)
 
           case 0:
 		        HAL_Delay(2000);
-				run_t.gPower_On=POWER_OFF;
+				run_t.gPower_On=RUN_POWER_OFF;
+		        //run_t.step_run_power_off_tag=1;
 				run_t.gRunCommand_label =POWER_OFF_PROCESS;
+				
 				run_t.power_times=1;
                 run_t.first_power_on_times=1;
 
@@ -128,12 +130,13 @@ int main(void)
 		  case 1:
 		  	       
 				   Decode_Handler();
-                   
-		           run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
-				   Process_Key_Handler(run_t.keyvalue);
+               
+			        run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
+					   Process_Key_Handler(run_t.keyvalue);
 		          
-			      
-				   RunPocess_Command_Handler();
+                   	
+				    RunPocess_Command_Handler();
+                   
 				   USART1_Cmd_Error_Handler();
 			   
 

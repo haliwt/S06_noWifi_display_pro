@@ -4,7 +4,7 @@
 #include "run.h"
 #include "key.h"
 #include "led.h"
-//#include "single_mode.h"
+#include "single_mode.h"
 
 
 
@@ -53,7 +53,7 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
       
 	  static uint8_t m,n,p,q;
 
-	if(run_t.gPower_On==1){
+	if(run_t.gPower_On==RUN_POWER_ON){
     
 		p=run_t.dispTime_hours  /10%10;
 		run_t.hours_two_bit =run_t.dispTime_hours  %10;//q=run_t.dispTime_hours  %10;  //

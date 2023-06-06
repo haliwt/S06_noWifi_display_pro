@@ -140,22 +140,23 @@ void RunPocess_Command_Handler(void)
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:
+	  	    run_t.step_run_power_off_tag=0;
+            run_t.power_on_send_to_mb_power_off_flag=0;
 
             switch(run_t.step_run_power_on_tag){
 
 			case 0:
            
-		 	SendData_PowerOff(1);
-            HAL_Delay(20);
-		    
+			  run_t.gPower_On=RUN_POWER_ON;
 
-			if(run_t.power_on_send_to_mb_flag< 45){
 
-			  run_t.power_on_send_to_mb_flag++;
+			if(run_t.power_on_send_to_mb_flag< 20 && run_t.step_run_power_on_tag==0){
+				run_t.power_on_send_to_mb_flag++;
+
+			 
 
 			  SendData_PowerOff(1);
 			  HAL_Delay(40);
-			 
 
 
 			}
@@ -173,11 +174,36 @@ void RunPocess_Command_Handler(void)
 
 	  case RUN_POWER_OFF:
 	  	  run_t.power_on_send_to_mb_flag=0;
-          SendData_PowerOff(0);
-           HAL_Delay(5);
-           Power_Off_Fun();
-	      
-		   run_t.gRunCommand_label =POWER_OFF_PROCESS;
+		    run_t.power_on_send_to_mb_flag=0;
+
+			
+
+	      switch(run_t.step_run_power_off_tag){
+
+			case 0:
+				run_t.gPower_On=RUN_POWER_OFF;
+
+		   if(run_t.power_on_send_to_mb_power_off_flag< 20  && run_t.step_run_power_off_tag==0){
+			run_t.power_on_send_to_mb_power_off_flag++;
+
+			
+            SendData_PowerOff(0);
+            HAL_Delay(40);
+		
+
+		   	}
+         
+	      	break;
+
+			case 1:
+				
+		    Power_Off_Fun();
+
+		  
+		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
+            break;
+        }
+		break;
 	  break;
 
 	  case UPDATE_DATA: //3
@@ -199,7 +225,7 @@ void RunPocess_Command_Handler(void)
 
 	  case POWER_OFF_PROCESS://4
 
-	   if(run_t.gPower_On ==POWER_OFF ){
+	   if(run_t.gPower_On ==RUN_POWER_OFF ){
 
 	  
 				Breath_Led();

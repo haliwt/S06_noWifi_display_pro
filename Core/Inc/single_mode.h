@@ -3,8 +3,9 @@
 #include "main.h"
 
 typedef enum {
-    RUN_POWER_OFF = 0x01,
-    RUN_POWER_ON,
+   
+    RUN_POWER_ON=0x01,
+	RUN_POWER_OFF,
     UPDATE_DATA,
     POWER_OFF_PROCESS,
     RUN_WIFI_NORMAL_POWER_ON,

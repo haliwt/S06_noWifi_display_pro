@@ -30,7 +30,7 @@ void Decode_Handler(void)
    run_t.decodeFlag =0;
    run_t.process_run_guarantee_flag =1;
    Receive_MainBoard_Data_Handler(run_t.rx_mb_data_tag);
-   run_t.step_run_power_on_tag=1;
+
 
    }
   
@@ -48,7 +48,7 @@ void Decode_Handler(void)
 **********************************************************************/
 void Power_Off(void)
 {
-    	 if(run_t.gPower_On ==POWER_OFF){
+    	 if(run_t.gPower_On ==RUN_POWER_OFF){
 
 			Smg_AllOff();
             SMG_POWER_OFF()	;
@@ -92,13 +92,28 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
         temp2 = run_t.gReal_humtemp[1]%10;
 
          //temperature 
-          TM1639_Write_2bit_TempData(temp1,temp2);
-	      TM1639_Write_2bit_HumData(hum1,hum2);
-	     HAL_Delay(2);
+       //   TM1639_Write_2bit_TempData(temp1,temp2);
+	    //  TM1639_Write_2bit_HumData(hum1,hum2);
+	   //  HAL_Delay(2);
         }
-	  
 
+	  if(run_t.gPower_On == RUN_POWER_ON)
+	  	   run_t.step_run_power_on_tag=1;
+		else
+		  run_t.step_run_power_off_tag=1;
+       cmd =0xff;
       break;
+
+	  case ANSWER_DATA:
+	  	if(run_t.gPower_On ==RUN_POWER_ON)
+	  	   run_t.step_run_power_on_tag=1;
+		else
+		  run_t.step_run_power_off_tag=1;
+
+	  cmd =0xff;
+
+
+	  break;
 
       
 
@@ -128,7 +143,7 @@ void Power_On_Fun(void)
 		run_t.gBug =1;
 	   	run_t.gUltrasonic =1;
   
-    run_t.gPower_On=POWER_ON;
+    run_t.gPower_On=RUN_POWER_ON;
 
     run_t.time_led_flag=1;
 	Power_ON_Led();
@@ -177,9 +192,9 @@ void Power_Off_Fun(void)
         run_t.gWifi =0;
       
 	
-	    run_t.gPower_On=POWER_OFF;
+	    run_t.gPower_On=RUN_POWER_OFF;
 		
-		power_on_off_flag=1;
+		
 		
         Power_Off_Led_Off();
 

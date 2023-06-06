@@ -32,11 +32,11 @@ typedef enum TIMING_T{
 
 
 typedef enum _Signal{
-    POWER_ON=0x01,
-    POWER_OFF,
-	PANEL_DATA,
+  
+	PANEL_DATA=0x01,
     ORDER_DATA,
-    POWER_OFF_FAN_CONTINUE_RUN,
+    ANSWER_DATA,
+   
     POWER_NULL
 
 }signal_t;
@@ -93,6 +93,8 @@ typedef struct __RUN{
    uint8_t  gUltrasonic;
    uint8_t  power_on_send_to_mb_flag;
    uint8_t step_run_power_on_tag;
+   uint8_t step_run_power_off_tag;
+   uint8_t power_on_send_to_mb_power_off_flag;
   
   
    
