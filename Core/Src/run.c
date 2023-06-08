@@ -29,8 +29,14 @@ void Decode_Handler(void)
    if(run_t.decodeFlag ==1){
    run_t.decodeFlag =0;
    run_t.process_run_guarantee_flag =1;
-   if(run_t.gPower_On ==RUN_POWER_OFF)
+   if(run_t.gPower_On ==RUN_POWER_OFF){
+        run_t.step_run_power_on_tag=0;
         run_t.step_run_power_off_tag=1;
+   }
+   else{
+       run_t.step_run_power_on_tag=1;
+       run_t.step_run_power_off_tag=0;
+   }
    Receive_MainBoard_Data_Handler(run_t.rx_mb_data_tag);
 
 

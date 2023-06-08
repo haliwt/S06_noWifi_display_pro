@@ -80,7 +80,7 @@ uint8_t KEY_Scan(void)
 		{
 			if(key_t.read == key_t.buffer) //  short  key be down ->continunce be pressed key
 			{
-				if(++key_t.on_time>300 && ++key_t.on_time <15000 )// //10000  0.5us
+				if(++key_t.on_time>25 )// //10000  0.5us
 				{
 					//run_t.power_times++;
                     key_t.value = key_t.buffer^_KEY_ALL_OFF; // key.value = 0xFE ^ 0xFF = 0x01
@@ -114,7 +114,7 @@ uint8_t KEY_Scan(void)
 			}
 			else if(key_t.read == _KEY_ALL_OFF)  // loose hand 
 			{
-					if(++key_t.off_time> 1) //20//30 don't holding key dithering
+					if(++key_t.off_time> 0) //20//30 don't holding key dithering
 					{
 						key_t.value = key_t.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01
 						
@@ -241,7 +241,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				n =  run_t.wifi_set_temperature % 10; //
    
                 TM1639_Write_2bit_SetUp_TempData(m,n,0);
-				HAL_Delay(100);
+				
 			
 				   run_t.set_temperature_flag=1;
 				   run_t.gTimer_key_temp_timing=0;
@@ -265,7 +265,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				
 
 					 TM1639_Write_4Bit_Time(m,run_t.hours_two_bit, run_t.minutes_one_bit,q,0) ; //timer is default 12 hours "12:00" 
-				    HAL_Delay(100);
+				//    HAL_Delay(100);
                 
 				
 	  	    }
@@ -290,7 +290,7 @@ void Process_Key_Handler(uint8_t keylabel)
 
 			
 			 TM1639_Write_2bit_SetUp_TempData(m,n,0);
-			 HAL_Delay(100);
+			// HAL_Delay(100);
 		      run_t.set_temperature_flag=1;
 			  run_t.gTimer_key_temp_timing=0;
 			 
@@ -316,7 +316,7 @@ void Process_Key_Handler(uint8_t keylabel)
 				  q = 0;
 
 				TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ; //timer is default 12 hours "12:00"    
-                HAL_Delay(100);
+              //  HAL_Delay(100);
 	
 			
 		  
