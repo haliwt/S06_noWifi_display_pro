@@ -580,7 +580,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
                 run_t.gRunCommand_label = RUN_POWER_ON;
 		   }
            else{
-		   	run_t.gRunCommand_label = RUN_POWER_OFF;
+		   //	run_t.gRunCommand_label = RUN_POWER_OFF;
+			run_t.gRunCommand_label =POWER_OFF_PROCESS;
+			SendData_PowerOff(0);
+		     Power_Off_Fun();
+				  
             
 		
             }

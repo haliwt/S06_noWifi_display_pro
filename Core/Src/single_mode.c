@@ -147,7 +147,7 @@ void RunPocess_Command_Handler(void)
            
 			
             SendData_PowerOff(1);
-			HAL_Delay(2);
+
 
 			if(run_t.power_on_send_to_mb_times > 9){
             
@@ -182,9 +182,6 @@ void RunPocess_Command_Handler(void)
 			
             power_off_set_flag=0;
 		   
-		    SendData_PowerOff(0);
-		    HAL_Delay(2);
-
 		  if(run_t.power_off_send_to_mb_times >9){
             
                 run_t.step_run_power_off_tag=1;
@@ -207,7 +204,7 @@ void RunPocess_Command_Handler(void)
 			run_t.power_off_send_to_mb_times= 20;
 			 run_t.gPower_On=RUN_POWER_OFF;
 			
-		    Power_Off_Fun();
+		     Power_Off_Fun();
 
 		  
 		    run_t.gRunCommand_label =POWER_OFF_PROCESS;
@@ -238,14 +235,8 @@ void RunPocess_Command_Handler(void)
 	  case POWER_OFF_PROCESS://4
 
 	   if(run_t.gPower_On ==RUN_POWER_OFF  && POWER_KEY_VALUE() == KEY_UP){
-
-                if(power_off_set_flag==0){
-					power_off_set_flag++;
-					SendData_PowerOff(0);
-				    HAL_Delay(2);
-
-                }
-		        
+                 Power_Off_Fun();
+              
 				Breath_Led();
 		 
 		
