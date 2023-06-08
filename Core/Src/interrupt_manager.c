@@ -10,7 +10,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 
 	if(huart->Instance==USART1){
 	
-		if(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_ORE)!=RESET){
+		if(__HAL_UART_GET_IT(&huart1,UART_FLAG_ORE)!=RESET){
 
 		__HAL_UART_CLEAR_OREFLAG(&huart1);
 		
