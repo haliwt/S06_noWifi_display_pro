@@ -13,6 +13,10 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 		if(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_ORE)!=RESET){
 
 		__HAL_UART_CLEAR_OREFLAG(&huart1);
+		
+ 		__HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_OREF); //UART_CLEAR_RTOF
+ 		__HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_RTOF);
+		
 		 UART_Start_Receive_IT(&huart1,inputBuf,1);
 
 		}

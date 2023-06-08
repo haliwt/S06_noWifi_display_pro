@@ -337,20 +337,22 @@ void USART1_Cmd_Error_Handler(void)
    if(run_t.gTimer_usart_error >57){
 	  	run_t.gTimer_usart_error=0;
 	    
-         if(run_t.process_run_guarantee_flag ==1){
-         
-             run_t.process_run_guarantee_flag =0;
-         
-         }
-         else{
-           __HAL_UART_CLEAR_OREFLAG(&huart1);
-        
+//         if(run_t.process_run_guarantee_flag ==1){
+//         
+//             run_t.process_run_guarantee_flag =0;
+//         
+//         }
+//         else{
+           //__HAL_UART_CLEAR_OREFLAG(&huart1);
+		   __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_OREF);
+		   __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_RTOF);//UART_CLEAR_TXFECF
+           __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_TXFECF);
           temp = USART1->RDR;
 		  
      
 		  UART_Start_Receive_IT(&huart1,inputBuf,1);
        
-		}
+		//}
       }
          
 } 
