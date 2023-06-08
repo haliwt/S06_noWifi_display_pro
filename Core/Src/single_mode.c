@@ -136,7 +136,7 @@ static void DisplayPanel_DHT11_Value(void)
 ******************************************************************************/
 void RunPocess_Command_Handler(void)
 {
-
+   static uint8_t power_off_set_flag;
    switch(run_t.gRunCommand_label){
 
       case RUN_POWER_ON:
@@ -147,19 +147,20 @@ void RunPocess_Command_Handler(void)
            
 			
             SendData_PowerOff(1);
-			HAL_Delay(10);
+			HAL_Delay(2);
 
-			if(run_t.power_on_send_to_mb_times< 10 && run_t.step_run_power_on_tag==0){
+			if(run_t.power_on_send_to_mb_times > 9){
+            
+            	run_t.step_run_power_on_tag=1;
+            }
+			else if(run_t.power_on_send_to_mb_times< 10 && run_t.step_run_power_on_tag==0){
 				run_t.power_on_send_to_mb_times++;
               SendData_PowerOff(1);
 			  HAL_Delay(100);
 
 
 			}
-            if(run_t.power_on_send_to_mb_times > 9){
-            
-            	run_t.step_run_power_on_tag=1;
-            }
+           
 
 			break;
 
@@ -178,30 +179,34 @@ void RunPocess_Command_Handler(void)
 		 switch(run_t.step_run_power_off_tag){
 
 			case 0:
-			run_t.gPower_On=RUN_POWER_OFF;
-       
-		    SendData_PowerOff(0);
-		    HAL_Delay(10);
-
-		   if(run_t.power_off_send_to_mb_times< 10 ){
-			run_t.power_off_send_to_mb_times++;
-
 			
-           SendData_PowerOff(0);
-           HAL_Delay(100);
+            power_off_set_flag=0;
+		   
+		    SendData_PowerOff(0);
+		    HAL_Delay(2);
+
+		  if(run_t.power_off_send_to_mb_times >9){
+            
+                run_t.step_run_power_off_tag=1;
+            
+            
+           }
+		   else if(run_t.power_off_send_to_mb_times< 10 ){
+				run_t.power_off_send_to_mb_times++;
+
+				
+	           SendData_PowerOff(0);
+	           HAL_Delay(100);
 		   }
            
-            if(run_t.power_off_send_to_mb_times >9){
             
-            run_t.step_run_power_off_tag=1;
-            
-            
-            }
          
 	      	break;
 
 			case 1:
 			run_t.power_off_send_to_mb_times= 20;
+			 run_t.gPower_On=RUN_POWER_OFF;
+			
 		    Power_Off_Fun();
 
 		  
@@ -234,7 +239,13 @@ void RunPocess_Command_Handler(void)
 
 	   if(run_t.gPower_On ==RUN_POWER_OFF  && POWER_KEY_VALUE() == KEY_UP){
 
-	  
+                if(power_off_set_flag==0){
+					power_off_set_flag++;
+					SendData_PowerOff(0);
+				    HAL_Delay(2);
+
+                }
+		        
 				Breath_Led();
 		 
 		

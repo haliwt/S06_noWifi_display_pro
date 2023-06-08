@@ -23,11 +23,13 @@ uint8_t KEY_Scan(void)
   uint8_t  reval = 0;
   key_t.read = _KEY_ALL_OFF; //0xFF 
 
-    if(POWER_KEY_VALUE() ==1){
+//    if(POWER_KEY_VALUE() ==1){
+//
+//        key_t.read &= ~0x01; // 0xFf & 0xfd =  0xFE
+//	}
+//    else 
 
-        key_t.read &= ~0x01; // 0xFf & 0xfd =  0xFE
-	}
-    else if(MODEL_KEY_VALUE() ==1 )
+	if(MODEL_KEY_VALUE() ==1 )
 	{
 		   key_t.read &= ~0x02; // 0xFf & 0xfd =  0xFD
 	}
@@ -561,31 +563,25 @@ void SetTimer_Temperature_Number_Blink(void)
 ***********************************************************/
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 {
-   #if 0
+   #if 1
    static uint8_t power_on_off_flag;
    
    switch(GPIO_Pin){
 
-     HAL_Delay(40);
+     HAL_Delay(20);
      case POWER_KEY_Pin:
 	   
 	 	if(POWER_KEY_VALUE()  ==KEY_DOWN && run_t.power_times==1){
 			
 
-		    power_on_off_flag = power_on_off_flag^ 0x01;
-            if( power_on_off_flag ==1){
+		   // power_on_off_flag = power_on_off_flag^ 0x01;
+            if(run_t.gPower_On ==RUN_POWER_OFF){
 				
-                run_t.power_key_pressed_flag=1;
-				run_t.gTimer_power_key_pressed=0;
-				run_t.gRunCommand_label = RUN_POWER_ON;
-		
-			   
-			    
-            }
-            else{
-             	run_t.power_key_pressed_flag=1;
-				run_t.gTimer_power_key_pressed=0;
-            	run_t.gRunCommand_label = RUN_POWER_OFF;
+                run_t.gRunCommand_label = RUN_POWER_ON;
+		   }
+           else{
+		   	run_t.gRunCommand_label = RUN_POWER_OFF;
+            
 		
             }
 		

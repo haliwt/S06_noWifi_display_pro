@@ -130,10 +130,11 @@ static uint8_t power_on_off_flag;
 		  case 1:
 		  	       
             Decode_Handler();
-
-            run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
-            Process_Key_Handler(run_t.keyvalue);
-            RunPocess_Command_Handler();
+            if(POWER_KEY_VALUE()  ==KEY_UP){
+              run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
+              Process_Key_Handler(run_t.keyvalue);
+            }
+			RunPocess_Command_Handler();
             USART1_Cmd_Error_Handler();
 
 

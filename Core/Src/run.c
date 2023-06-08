@@ -196,14 +196,7 @@ void Power_Off_Fun(void)
 		
 
 		run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-    
-      
-	
-	    run_t.gPower_On=RUN_POWER_OFF;
-		
-		
-		
-        Power_Off_Led_Off();
+       Power_Off_Led_Off();
 
   
 } 
