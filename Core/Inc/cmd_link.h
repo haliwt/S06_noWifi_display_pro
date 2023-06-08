@@ -3,9 +3,11 @@
 
 #include "main.h"
 #define  MAX_BUFFER_SIZE   8
+#define MAX_BUFFER_BUF   6
 
 extern uint8_t inputBuf[MAX_BUFFER_SIZE];
 extern uint8_t outputBuf[8];
+extern uint8_t parse_buf[MAX_BUFFER_BUF];
 
 
 typedef enum{

@@ -3,6 +3,7 @@
 #include "main.h"
 
 
+#define TOUCH_KEY_IC_1_VALUE()      HAL_GPIO_ReadPin(GPIOC,TOUCH_KEY_IC_1_Pin)
 
 
 #define POWER_KEY_VALUE()            HAL_GPIO_ReadPin(GPIOC ,POWER_KEY_Pin)

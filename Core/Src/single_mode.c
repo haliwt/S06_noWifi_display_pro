@@ -147,23 +147,26 @@ void RunPocess_Command_Handler(void)
 
 			case 0:
            
-			  run_t.gPower_On=RUN_POWER_ON;
+			
+          //  SendData_PowerOff(1);
+		//	HAL_Delay(100);
 
-
-			if(run_t.power_on_send_to_mb_flag< 20 && run_t.step_run_power_on_tag==0){
+			if(run_t.power_on_send_to_mb_flag< 10 && run_t.step_run_power_on_tag==0){
 				run_t.power_on_send_to_mb_flag++;
-
-			 
-
-			  SendData_PowerOff(1);
-			  HAL_Delay(40);
+              SendData_PowerOff(1);
+			  HAL_Delay(100);
 
 
 			}
+            if(run_t.power_on_send_to_mb_flag > 9){
+            
+            	run_t.step_run_power_on_tag=1;
+            }
 
 			break;
 
 			case 1:
+            run_t.power_on_send_to_mb_flag=36;
 			Power_On_Fun();
 			run_t.gRunCommand_label= UPDATE_DATA;
 
@@ -172,26 +175,32 @@ void RunPocess_Command_Handler(void)
             }
 	  break;
 
-	  case RUN_POWER_OFF:
-	  	  run_t.power_on_send_to_mb_flag=0;
-		    run_t.power_on_send_to_mb_flag=0;
-
-			
-
-	      switch(run_t.step_run_power_off_tag){
+	  case RUN_POWER_OFF://2
+	  	 run_t.step_run_power_on_tag=0;
+		 switch(run_t.step_run_power_off_tag){
 
 			case 0:
-				run_t.gPower_On=RUN_POWER_OFF;
+			run_t.gPower_On=RUN_POWER_OFF;
+       
+		   SendData_PowerOff(0);
+		   HAL_Delay(100);
 
-		   if(run_t.power_on_send_to_mb_power_off_flag< 20  && run_t.step_run_power_off_tag==0){
+		   if(run_t.power_on_send_to_mb_power_off_flag< 10  && run_t.step_run_power_off_tag==0){
 			run_t.power_on_send_to_mb_power_off_flag++;
 
 			
-            SendData_PowerOff(0);
-            HAL_Delay(40);
+           SendData_PowerOff(0);
+           HAL_Delay(100);
 		
 
 		   	}
+           
+            if(run_t.power_on_send_to_mb_power_off_flag >9){
+            
+            run_t.step_run_power_off_tag=1;
+            
+            
+            }
          
 	      	break;
 
@@ -217,6 +226,13 @@ void RunPocess_Command_Handler(void)
    	   SetTimer_Temperature_Number_Blink();
       
        Display_TimeColon_Blink_Fun();
+
+	   if(run_t.power_key_pressed_flag==1 && run_t.gTimer_power_key_pressed > 2){
+            run_t.gTimer_power_key_pressed =0;
+		   run_t.power_key_pressed_flag=0;
+
+
+	   }
 
 		
 	   

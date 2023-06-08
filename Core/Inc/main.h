@@ -97,7 +97,11 @@ void Error_Handler(void);
 #define ADD_KEY_Pin 					          GPIO_PIN_12
 #define ADD_KEY_GPIO_Port 				      GPIOA
 
+#define TOUCH_KEY_IC_1_Pin                    GPIO_PIN_13
+#define TOUCK_KEY_IC_1_GPIO_Port              GPIOC
 
+#define TOUCH_KEY_IC_2_Pin                   GPIO_PIN_14
+#define TOUCK_KEY_IC_2_GPIO_Port             GPIOC
 
 
 //Led output GPIO

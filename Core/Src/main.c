@@ -73,7 +73,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+static uint8_t power_on_off_flag;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -100,7 +100,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
     HAL_TIM_Base_Start_IT(&htim3);
      UART_Start_Receive_IT(&huart1,inputBuf,1);
-     __HAL_UART_ENABLE_IT(&huart1,UART_IT_ERR);
+    __HAL_UART_ENABLE_IT(&huart1,UART_IT_ERR);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -129,21 +129,14 @@ int main(void)
 
 		  case 1:
 		  	       
-				   Decode_Handler();
-               
-			        run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
-					   Process_Key_Handler(run_t.keyvalue);
-		          
-                   	
-				    RunPocess_Command_Handler();
-                   
-				   USART1_Cmd_Error_Handler();
-			   
+            Decode_Handler();
+
+            run_t.keyvalue = KEY_Scan();//Scan_KeyMode();
+            Process_Key_Handler(run_t.keyvalue);
+            RunPocess_Command_Handler();
+            USART1_Cmd_Error_Handler();
 
 
-		  break;
-
-		  default:
 
 		  break;
   
@@ -216,9 +209,6 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-        __HAL_UART_CLEAR_OREFLAG(&huart1);
-         temp = USART1->RDR;
-		  UART_Start_Receive_IT(&huart1,inputBuf,1);
   }
   /* USER CODE END Error_Handler_Debug */
 }

@@ -62,6 +62,8 @@ typedef struct __RUN{
    uint8_t keyAdd_continue;
    uint8_t keyDec_continue;
    uint8_t gRunCommand_label;
+   uint8_t power_key_pressed_flag;
+   uint8_t gTimer_power_key_pressed;
 
 
    uint8_t gTemperature;

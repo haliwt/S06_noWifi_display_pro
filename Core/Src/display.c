@@ -101,6 +101,9 @@ static void TimeColon_Smg_Blink_Fun(void)
 void Display_TimeColon_Blink_Fun(void)
 {
     static uint8_t  continue_flag=0, continue_2_flag=0;
+
+
+	if(run_t.power_key_pressed_flag == 0){
  
    if(run_t.gTimer_time_colon >27){ //10*20ms=300ms
 
@@ -128,6 +131,7 @@ void Display_TimeColon_Blink_Fun(void)
 					TimeColon_Smg_Blink_Fun();
 					
 
+	}
 	}
 	}
 

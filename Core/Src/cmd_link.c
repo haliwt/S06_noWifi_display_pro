@@ -10,8 +10,7 @@ uint8_t outputBuf[8];
 static uint8_t transferSize;
 static uint8_t state;
 uint8_t inputBuf[MAX_BUFFER_SIZE];
-uint8_t parse_buf[MAX_BUFFER_SIZE];
-
+uint8_t parse_buf[MAX_BUFFER_BUF];
 
 
 /****************************************************************************************************
@@ -231,7 +230,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		case 1: //#1
 			if(inputBuf[0]=='A' ||inputBuf[0]==0 || inputBuf[0]==0x01) //hex : 41 -'A'  -fixed master
 			{
-				if(run_t.rx_mb_answer_tag ==1)parse_buf[1] =inputBuf[0];
+				if(inputBuf[0]!='A')parse_buf[1] =inputBuf[0];
                 
 				state=2; 
 			}
@@ -248,7 +247,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			 {
 				
 				if(inputBuf[0]=='D')run_t.rx_mb_data_tag=PANEL_DATA; //receive data is single data
-                else if(run_t.rx_mb_answer_tag ==1)parse_buf[2] =inputBuf[0];
+                else parse_buf[2] =inputBuf[0];
 			    state=3;
 			}
 			else{
@@ -267,16 +266,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                   state = 4; 
                 
              }
-            else  if(run_t.rx_mb_answer_tag ==1){
+            else {
 
 				parse_buf[3] =inputBuf[0];
 				 state = 4; 
             }
-			else{
-				 state =0; 
-                 run_t.rx_mb_answer_tag=0;
-
-				}
+			
 
          
 		    
@@ -295,38 +290,32 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		     state=0;
 		     run_t.decodeFlag=1;
 			 run_t.rx_mb_answer_tag=0;
+              
           }
-         else if(run_t.rx_mb_answer_tag ==1){
+         else {
 
 			parse_buf[4] =inputBuf[0];
 			state =5;
 
          }
-		 else{
-		 	state =0;
-           run_t.rx_mb_answer_tag=0;
-		 	}
+		
 		 
 		 break;
 
 
 		 case 5:
 		  parse_buf[5] =inputBuf[0];
-          total_value = parse_buf[0]+parse_buf[1]+parse_buf[2]+parse_buf[3] +parse_buf[4];
-		  if(total_value == parse_buf[5]){
+         
 
 		      state=0;
 			  run_t.decodeFlag=1;
 		      run_t.rx_mb_data_tag=0;
-			   run_t.rx_mb_data_tag=ANSWER_DATA;
+			  run_t.rx_mb_data_tag=ANSWER_DATA;
+          
+              
 
 
-		  }
-		  else{
-		      state =0;
-			  run_t.rx_mb_answer_tag=0;
-
-		  }
+		 
 
 		 break;
            
@@ -338,28 +327,33 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		break;
 
 		}
+        __HAL_UART_CLEAR_OREFLAG(&huart1);
 		HAL_UART_Receive_IT(&huart1,inputBuf,1);//UART receive data interrupt 1 byte
 	}
 }
 void USART1_Cmd_Error_Handler(void)
 {
    uint32_t temp;
-   if(run_t.gTimer_usart_error >9){
+   if(run_t.gTimer_usart_error >57){
 	  	run_t.gTimer_usart_error=0;
 	    
-      
+         if(run_t.process_run_guarantee_flag ==1){
+         
+             run_t.process_run_guarantee_flag =0;
+         
+         }
+         else{
            __HAL_UART_CLEAR_OREFLAG(&huart1);
-          
-
+        
           temp = USART1->RDR;
 		  
      
 		  UART_Start_Receive_IT(&huart1,inputBuf,1);
        
 		}
-}
+      }
          
-     
+} 
         
    
 

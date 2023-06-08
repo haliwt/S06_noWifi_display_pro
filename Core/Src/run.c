@@ -29,6 +29,7 @@ void Decode_Handler(void)
    if(run_t.decodeFlag ==1){
    run_t.decodeFlag =0;
    run_t.process_run_guarantee_flag =1;
+    run_t.step_run_power_off_tag=1;
    Receive_MainBoard_Data_Handler(run_t.rx_mb_data_tag);
 
 
@@ -77,7 +78,7 @@ void Power_Off(void)
 **********************************************************************/
 void Receive_MainBoard_Data_Handler(uint8_t cmd)
 {
-	static uint8_t m,n,p,q;
+	static uint8_t m,n,p,q,i;
 	static uint8_t hum1,hum2,temp1,temp2; 
 	
     switch(cmd){
@@ -102,16 +103,27 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 		else
 		  run_t.step_run_power_off_tag=1;
        cmd =0xff;
+       run_t.rx_mb_data_tag = 0xff;
       break;
 
 	  case ANSWER_DATA:
+          
+       if(parse_buf[5] == parse_buf[0]+parse_buf[1]+parse_buf[2]+parse_buf[3] +parse_buf[4]){
+		 
 	  	if(run_t.gPower_On ==RUN_POWER_ON)
 	  	   run_t.step_run_power_on_tag=1;
 		else
 		  run_t.step_run_power_off_tag=1;
+        
+       }
+          
+       for(i=0;i<6;i++){
+       
+       parse_buf[i]=0;
+       }
 
 	  cmd =0xff;
-
+      run_t.rx_mb_data_tag = 0xff;
 
 	  break;
 
