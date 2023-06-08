@@ -53,15 +53,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 	     run_t.gTimer_colon++;
 		
-		run_t.dispTime_seconds++;
+	
 	    run_t.gTimer_display_dht11++;
 		run_t.gTimer_power_key_pressed++;
 		//--------------//
-		run_t .gTimer_wifi_slowly++;
+		
 		run_t.gTimer_key_timing++;
 		run_t.gTimer_temperature++;
 		run_t.gTimer_key_temp_timing++ ;
-		run_t.gTimer_wifi_couter++;
+	
 		run_t.gTimer_temp_delay++;
         //usart
         run_t.gTimer_check_iwdg_flag++;

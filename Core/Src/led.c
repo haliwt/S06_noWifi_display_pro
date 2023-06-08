@@ -11,7 +11,7 @@ static void TIME_LED_OnOff(uint8_t sel);
 
 static void Power_BreathOnOff(void);
 
-static void WIFI_LED_OnOff(uint8_t sel);
+static void AI_Led_OnOff(uint8_t sel);
 
 static void ULTRASONIC_LED_OnOff(uint8_t sel);
 
@@ -22,66 +22,25 @@ static void delay_led_times(uint16_t t);
 
 /***********************************************************
 *
-*Function Name : static void WIFI_LED_OnOff(uint8_t sel)
+*Function Name : static void AI_Led_OnOff(uint8_t sel)
 *
 *
 *
 ************************************************************/
-static void WIFI_LED_OnOff(uint8_t sel)
+static void AI_Led_OnOff(uint8_t sel)
 {
 
-    if(run_t.wifi_link_cloud_flag ==1){
+    if(run_t.ai_model_flag ==1){
 
-           LED_WIFI_ON();
+           LED_AI_ON();
 
 	}
     else{
+		 LED_AI_OFF();
 
-	if(run_t.wifi_led_fast_blink_flag==1){
+    }
 
-	     if(run_t.gTimer_wifi_couter < 134 ){
-	
-		 if(run_t.gTimer_led_500ms > 0 && 	run_t.gTimer_led_500ms< 12){ //12
-		     LED_WIFI_OFF();
 
-		 }
-		 else if(run_t.gTimer_led_500ms>11 && run_t.gTimer_led_500ms<23){
-		 	 LED_WIFI_ON();
-		     
-
-        }
-		else{
-		  	run_t.gTimer_led_500ms=0;
-		     LED_WIFI_OFF();
-
-		}
-	    }
-		else{
-		   	run_t.gTimer_wifi_couter=0;
-		    run_t.wifi_led_fast_blink_flag=0;
-		    run_t.gWifi =0;
-
-		}
-	}
-	else{
-		if(run_t .gTimer_wifi_slowly > 0 &&	run_t .gTimer_wifi_slowly< 2){
-				 LED_WIFI_OFF();
-	
-			 }
-			 else if(run_t .gTimer_wifi_slowly>1 && run_t .gTimer_wifi_slowly< 3){
-				 LED_WIFI_ON();
-				 
-	
-			}
-			else{
-				run_t .gTimer_wifi_slowly=0;
-				 LED_WIFI_OFF();
-	
-			}
-
-		}
-
-	}
 }
 
 static void DRY_LED_OnOff(uint8_t sel)
@@ -131,9 +90,9 @@ static void ULTRASONIC_LED_OnOff(uint8_t sel)
 void ALL_LED_Off(void)
 {
    LED_PLASMA_OFF();
-   LED_WIFI_OFF();
+   LED_AI_OFF();
   LED_DRY_OFF();
-  LED_WIFI_OFF();
+  LED_AI_OFF();
   LED_TIME_OFF();
 
 
@@ -153,12 +112,12 @@ void Panel_Led_OnOff_Function(void)
 {
 	
 	LED_POWER_ON();
-	if(run_t.gWifi ==0){
-       WIFI_LED_OnOff(0);
+	if(run_t.ai_model_flag ==0){
+       LED_AI_ON();
 
 	}
 	else
-		WIFI_LED_OnOff(1);
+		LED_AI_OFF() ;
 	 
 	  
     if(run_t.gDry==1){
@@ -308,7 +267,7 @@ void Panel_Led_OnOff_RunCmd(void (*panelledHandler)(void))
 
 void Power_Off_Led_Off(void)
 {
-   LED_WIFI_OFF();
+   LED_AI_OFF();
    LED_DRY_OFF();
    LED_TIME_OFF();
    LED_PLASMA_OFF();

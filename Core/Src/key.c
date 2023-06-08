@@ -196,11 +196,11 @@ void Process_Key_Handler(uint8_t keylabel)
 
 		    SendData_Set_Wifi(0x01);
 			HAL_Delay(50);
-		  	run_t.gWifi =1;
+	
 			run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
          
 		
-			run_t.wifi_link_cloud_flag =0;
+			run_t.ai_model_flag =0;
 			run_t.gTimer_wifi_connect_counter=0;
 	       
 		 }
@@ -424,18 +424,18 @@ void SetTimer_Temperature_Number_Blink(void)
 			run_t.send_app_timer_minutes_one = 0;
 		    run_t.send_app_timer_minutes_two = 0;
 			
-			SendData_Time_Data(run_t.dispTime_hours);
-			HAL_Delay(100);
+		//	SendData_Time_Data(run_t.dispTime_hours);
+		//	HAL_Delay(100);
             
 		 	//SendData_Remaining_Time(run_t.send_app_timer_minutes_one, run_t.send_app_timer_minutes_two);
 			//HAL_Delay(200);
 			
 					
-			SendData_Works_Time(run_t.send_app_wokes_minutes_one ,run_t.send_app_wokes_minutes_two);
-			HAL_Delay(100);
+			//SendData_Works_Time(run_t.send_app_wokes_minutes_one ,run_t.send_app_wokes_minutes_two);
+			//HAL_Delay(100);
 	        run_t.dispTime_hours = run_t.works_dispTime_hours;
 			run_t.dispTime_minutes = run_t.works_dispTime_minutes;
-			Display_GMT(run_t.dispTime_hours,run_t.dispTime_minutes);
+		//	Display_GMT(run_t.dispTime_hours,run_t.dispTime_minutes);
 			
 
 		}
@@ -485,17 +485,18 @@ void SetTimer_Temperature_Number_Blink(void)
 			run_t.send_app_timer_total_minutes_data = run_t.define_initialization_timer_time_hours*60;
 			
 			run_t.gTimer_Counter=0;
-			while(send_timing_value == 1){
-			   send_timing_value++;
-			   SendData_Time_Data(run_t.dispTime_hours);
-			   HAL_Delay(50);
-			}
-			run_t.send_app_timer_minutes_one = run_t.send_app_timer_total_minutes_data >> 8;
-		    run_t.send_app_timer_minutes_two = run_t.send_app_timer_total_minutes_data & 0x00ff;
+			//while(send_timing_value == 1){
+			//   send_timing_value++;
+			//   SendData_Time_Data(run_t.dispTime_hours);
+			//   HAL_Delay(50);
+			//}
+			//run_t.send_app_timer_minutes_one = run_t.send_app_timer_total_minutes_data >> 8;
+		    //run_t.send_app_timer_minutes_two = run_t.send_app_timer_total_minutes_data & 0x00ff;
             
 		 	
-		    SendData_Remaining_Time(run_t.send_app_timer_minutes_one, run_t.send_app_timer_minutes_two);
-			run_t.hours_two_bit = run_t.hours_two_bit=run_t.dispTime_hours  %10;
+		   // SendData_Remaining_Time(run_t.send_app_timer_minutes_one, run_t.send_app_timer_minutes_two);
+           //  HAL_Delay(50);
+			run_t.hours_two_bit=run_t.dispTime_hours  %10;
 			run_t.minutes_one_bit = p;
 		
 			TM1639_Write_4Bit_Time(m,run_t.hours_two_bit,run_t.minutes_one_bit,q,0) ;
@@ -547,8 +548,8 @@ void SetTimer_Temperature_Number_Blink(void)
 			  m =  run_t.wifi_set_temperature / 10 ;
 			  n =  run_t.wifi_set_temperature % 10; //
 			  TM1639_Write_2bit_SetUp_TempData(m,n,0);
-	          SendData_Temp_Data(run_t.wifi_set_temperature);
-               HAL_Delay(50);
+	         // SendData_Temp_Data(run_t.wifi_set_temperature);
+              // HAL_Delay(50);
 	       }
 	  }
 	  break;

@@ -148,8 +148,8 @@ void RunPocess_Command_Handler(void)
 			case 0:
            
 			
-          //  SendData_PowerOff(1);
-		//	HAL_Delay(100);
+            SendData_PowerOff(1);
+			HAL_Delay(100);
 
 			if(run_t.power_on_send_to_mb_flag< 10 && run_t.step_run_power_on_tag==0){
 				run_t.power_on_send_to_mb_flag++;
@@ -182,8 +182,8 @@ void RunPocess_Command_Handler(void)
 			case 0:
 			run_t.gPower_On=RUN_POWER_OFF;
        
-		   SendData_PowerOff(0);
-		   HAL_Delay(100);
+		  // SendData_PowerOff(0);
+		  // HAL_Delay(100);
 
 		   if(run_t.power_on_send_to_mb_power_off_flag< 10  && run_t.step_run_power_off_tag==0){
 			run_t.power_on_send_to_mb_power_off_flag++;

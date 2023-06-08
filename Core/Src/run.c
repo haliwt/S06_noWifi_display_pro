@@ -154,6 +154,7 @@ void Power_On_Fun(void)
 		run_t.gDry =1;
 		run_t.gBug =1;
 	   	run_t.gUltrasonic =1;
+
   
     run_t.gPower_On=RUN_POWER_ON;
 
@@ -199,9 +200,9 @@ void Power_Off_Fun(void)
 		run_t.gDry =0;
 		run_t.gBug =0;
 		
-		run_t.wifi_led_fast_blink_flag=0;
+
 		run_t.gTimer_set_temp_times=0; //conflict with send temperatur value 
-        run_t.gWifi =0;
+    
       
 	
 	    run_t.gPower_On=RUN_POWER_OFF;

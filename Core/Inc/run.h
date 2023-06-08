@@ -90,7 +90,7 @@ typedef struct __RUN{
  
    uint8_t  gDry;
    uint8_t  gBug;
-   uint8_t  gWifi;
+
 
    uint8_t  gUltrasonic;
    uint8_t  power_on_send_to_mb_flag;
@@ -130,7 +130,7 @@ typedef struct __RUN{
    uint8_t rx_mb_answer_tag ;
 
    //wifi icon
-   uint8_t wifi_led_fast_blink_flag;
+ 
    uint8_t timer_timing_define_flag;
 
  
@@ -149,7 +149,7 @@ typedef struct __RUN{
    uint8_t wifi_set_temperature;
    uint8_t gTimer_time_colon;
  
-   uint8_t wifi_link_cloud_flag;
+   uint8_t ai_model_flag;
    uint8_t gTimer_wifi_connect_counter;
    uint8_t temp_set_timer_timing_flag;
    uint8_t gTimer_key_timing;
@@ -157,11 +157,11 @@ typedef struct __RUN{
 
    //timer timing 
    uint8_t gTimer_set_temp_times;
-   uint8_t gTimer_wifi_slowly;
+  
    uint8_t gTimer_smg_timing;
    uint8_t gTimer_temperature;
    uint8_t gTimer_key_temp_timing;
-   uint8_t gTimer_wifi_couter;
+
    uint8_t send_app_wokes_minutes_two;
    uint8_t send_app_wokes_minutes_one;
 
@@ -184,7 +184,7 @@ typedef struct __RUN{
 
 	int8_t dispTime_hours;
 	int8_t dispTime_minutes;
-	int8_t dispTime_seconds;
+	
 
 	uint16_t gTimer_usart_error;
    
