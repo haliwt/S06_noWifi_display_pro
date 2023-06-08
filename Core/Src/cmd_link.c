@@ -338,7 +338,7 @@ void USART1_Cmd_Error_Handler(void)
 	  	run_t.gTimer_usart_error=0;
 	    
          
-   // if(__HAL_UART_GET_IT(&huart1,UART_FLAG_ORE)!=RESET){
+    if(__HAL_UART_GET_IT(&huart1,UART_FLAG_ORE)!=RESET){
        
 		   __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_OREF);
 		   __HAL_UART_CLEAR_IT(&huart1,UART_CLEAR_RTOF);//UART_CLEAR_TXFECF
@@ -350,7 +350,7 @@ void USART1_Cmd_Error_Handler(void)
 		  UART_Start_Receive_IT(&huart1,inputBuf,1);
        
 		}
-   //   }
+      }
          
 } 
         

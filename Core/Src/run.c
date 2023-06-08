@@ -85,7 +85,7 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
 
       case PANEL_DATA://0X02
 	   
-        if(run_t.gPower_On ==1){
+        if(run_t.gPower_On ==RUN_POWER_ON){
         hum1 =  run_t.gReal_humtemp[0]/10 %10;  //Humidity 
         hum2 =  run_t.gReal_humtemp[0]%10;
         
@@ -93,15 +93,12 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
         temp2 = run_t.gReal_humtemp[1]%10;
 
          //temperature 
-       //   TM1639_Write_2bit_TempData(temp1,temp2);
-	    //  TM1639_Write_2bit_HumData(hum1,hum2);
-	   //  HAL_Delay(2);
+          TM1639_Write_2bit_TempData(temp1,temp2);
+	      TM1639_Write_2bit_HumData(hum1,hum2);
+	      
         }
 
-	  if(run_t.gPower_On == RUN_POWER_ON)
-	  	   run_t.step_run_power_on_tag=1;
-		else
-		  run_t.step_run_power_off_tag=1;
+
        cmd =0xff;
        run_t.rx_mb_data_tag = 0xff;
       break;
@@ -117,10 +114,7 @@ void Receive_MainBoard_Data_Handler(uint8_t cmd)
         
        }
           
-       for(i=0;i<6;i++){
        
-       parse_buf[i]=0;
-       }
 
 	  cmd =0xff;
       run_t.rx_mb_data_tag = 0xff;
