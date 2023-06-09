@@ -366,7 +366,7 @@ void Process_Key_Handler(uint8_t keylabel)
                 if(run_t.gUltrasonic==0){
  					run_t.gUltrasonic =1; //tur ON
  					SendData_Set_Command(ULTRASONIC_ON);
-				HAL_Delay(10);
+						HAL_Delay(10);
 			     }
                 else{
                
